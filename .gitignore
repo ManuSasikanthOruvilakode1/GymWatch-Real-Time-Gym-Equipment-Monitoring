@@ -1,6 +1,11 @@
-# Private, self-collected data: never commit
-/data/
-/video/
+# Private, self-collected data: never commit.
+# Only the folder skeleton (README.md / .gitkeep placeholders) is tracked.
+/data/**
+!/data/*/
+!/data/README.md
+!/data/*/.gitkeep
+/video/**
+!/video/README.md
 *.mov
 *.mp4
 *.jpg
@@ -11,7 +16,8 @@
 /.cache/
 /runs/
 /artifacts/
-/models/
+/models/**
+!/models/README.md
 *.onnx
 *.pt
 *.sqlite*

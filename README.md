@@ -190,30 +190,60 @@ docker run -p 8000:8000 -v "$PWD/video:/app/video" gymwatch
 
 The image contains ONNX Runtime, OpenCV and FastAPI only: no PyTorch and no training data.
 
-## Project layout
+## File structure
 
 ```
-src/gymwatch/
-  config.py          typed YAML config (pydantic), CLI overrides
-  labels.py          folder name -> (equipment, occupancy)
-  data/manifest.py   scan, EXIF fix, capture time, sessions, time blocks, image cache
-  data/split.py      grouped + purged split, CV folds, leakage report
-  data/dataset.py    PyTorch dataset, augmentation, balanced sampler
-  model.py           multi-task GymNet (timm backbone) + checkpoints
-  train.py           training loop
-  metrics.py         metrics, ECE, temperature scaling
-  export.py          ONNX export + parity
-  preprocess.py      NumPy/OpenCV preprocessing shared by eval and deployment
-  predictor.py       ONNX Runtime predictor
-  video.py           offline video analysis and scoring
-  report.py          figures, Grad-CAM
-  realtime/          frame sources, tracker, SQLite store, overlay, multi-camera hub
-  api/               FastAPI app and static dashboard
-  cli.py             `gymwatch` command
-tests/               unit + integration tests (no private data needed)
-configs/             default config, video annotations
-scripts/             reproduce.sh, serve.py (Docker entry point)
+Real-Time-Gym-Equipment-Monitoring-System/
+├── .github/workflows/ci.yml     lint + tests on every push (CPU, synthetic data)
+├── configs/
+│   ├── default.yaml             all settings: data, model, training, cameras, smoothing
+│   └── video_labels.yaml        hand-annotated ground truth for video evaluation
+├── data/                        YOUR PHOTOS (private, not in the repo; see data/README.md)
+│   ├── IN-USE-LEG-EXTENSION/
+│   ├── NOT-IN-USE-LEG-EXTENSION/
+│   ├── IN-USE-PEC-FLY/
+│   └── NOT-IN-USE-PEC-FLY/
+├── video/                       YOUR VIDEOS (private, not in the repo; see video/README.md)
+├── models/                      exported gymwatch.onnx (generated, not in the repo)
+├── docs/figures/                charts used in this README
+├── scripts/
+│   ├── reproduce.sh             reruns every experiment in the Results section
+│   └── serve.py                 server entry point for the Docker image
+├── src/gymwatch/
+│   ├── cli.py                   the `gymwatch` command
+│   ├── config.py                typed YAML config (pydantic) with CLI overrides
+│   ├── labels.py                folder name -> (equipment, occupancy)
+│   ├── data/
+│   │   ├── manifest.py          scan, EXIF fix, capture time, sessions, image cache
+│   │   ├── split.py             grouped + purged split, CV folds, leakage report
+│   │   └── dataset.py           PyTorch dataset, augmentation, balanced sampler
+│   ├── model.py                 multi-task GymNet (timm backbone) + checkpoints
+│   ├── train.py                 training loop
+│   ├── metrics.py               metrics, calibration error, temperature scaling
+│   ├── export.py                ONNX export + parity check
+│   ├── preprocess.py            NumPy/OpenCV preprocessing shared by eval and deployment
+│   ├── predictor.py             ONNX Runtime predictor (no PyTorch needed)
+│   ├── video.py                 offline video analysis and scoring
+│   ├── report.py                figures and Grad-CAM
+│   ├── realtime/
+│   │   ├── sources.py           camera / RTSP / video-file readers
+│   │   ├── tracker.py           smoothing + hysteresis state machine
+│   │   ├── store.py             SQLite session log and usage stats
+│   │   ├── render.py            on-frame status overlay
+│   │   └── hub.py               multi-camera loop with batched inference
+│   └── api/
+│       ├── __init__.py          FastAPI app (REST, SSE, MJPEG, /metrics)
+│       └── static/              dashboard (HTML/CSS/JS, no CDN)
+├── tests/                       unit + integration tests (no private data needed)
+├── Dockerfile                   inference-only image
+├── pyproject.toml               dependencies and tool settings
+├── uv.lock                      pinned dependency versions
+└── LICENSE                      MIT
 ```
+
+Created locally when you run the pipeline (git-ignored): `.cache/` (resized images),
+`artifacts/` (split manifest, video results, session database) and `runs/` (checkpoints,
+metrics and figures for each training run).
 
 ## Development
 
