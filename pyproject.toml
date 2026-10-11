@@ -1,0 +1,62 @@
+[project]
+name = "gymwatch"
+version = "2.0.0"
+description = "Real-time gym equipment occupancy monitoring from camera feeds."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "torch>=2.5",
+    "torchvision>=0.20",
+    "timm>=1.0",
+    "numpy>=1.26",
+    "pillow>=10.0",
+    "opencv-python-headless>=4.10",
+    "scikit-learn>=1.5",
+    "pydantic>=2.7",
+    "pyyaml>=6.0",
+    "typer>=0.12",
+    "rich>=13.7",
+    "matplotlib>=3.8",
+    "onnx>=1.16",
+    "onnxscript>=0.3",
+    "onnxruntime>=1.18",
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "python-multipart>=0.0.9",
+]
+
+[project.scripts]
+gymwatch = "gymwatch.cli:app"
+
+[dependency-groups]
+dev = ["pytest>=8.0", "httpx>=0.27", "ruff>=0.6"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gymwatch"]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }
+torchvision = { index = "pytorch-cu128", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["B008", "E501"]  # B008: typer/fastapi defaults; E501: handled by ruff format
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

@@ -1,0 +1,16 @@
+# Hand-annotated ground truth for the two demo clips (times in seconds).
+# Convention follows the photo dataset: "in_use" = person seated and working the machine,
+# "free" = machine empty or people only passing / standing near it.
+# "ignore" marks behaviour never seen in the photo set (leaning over to adjust the seat),
+# which is excluded from scoring rather than guessed.
+videos:
+  - path: video/2024-07-06 21.53.16.mov
+    equipment: leg_extension
+    segments:
+      - {start: 0.0, end: 21.0, label: in_use}
+  - path: video/2024-07-06 22.11.52.mov
+    equipment: pec_fly
+    segments:
+      - {start: 0.0, end: 3.5, label: ignore}   # leaning over the seat
+      - {start: 3.5, end: 12.5, label: free}    # walks off, machine empty, walks back in
+      - {start: 12.5, end: 21.0, label: ignore} # adjusting the seat, sits down at the very end

@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      # CPU-only torch keeps the CI install small; tests never touch the private dataset.
+      - name: Install
+        run: |
+          uv venv
+          uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          uv pip install -e . pytest httpx ruff
+      - name: Lint
+        run: uv run --no-sync ruff check src tests
+      - name: Test
+        run: uv run --no-sync pytest

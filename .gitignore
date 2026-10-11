@@ -1,0 +1,30 @@
+# Private, self-collected data: never commit
+/data/
+/video/
+*.mov
+*.mp4
+*.jpg
+*.jpeg
+*.h5
+
+# Generated
+/.cache/
+/runs/
+/artifacts/
+/models/
+*.onnx
+*.pt
+*.sqlite*
+
+# Figures that contain photos from the private dataset
+/docs/figures/private/
+
+# Python / tooling
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/

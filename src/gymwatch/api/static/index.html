@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GymWatch</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>GymWatch</h1>
+      <p class="sub">Live equipment occupancy</p>
+    </div>
+    <div class="top-right">
+      <span id="conn" class="conn" aria-live="polite">connecting…</span>
+      <label class="window">Stats window
+        <select id="window">
+          <option value="600">10 min</option>
+          <option value="3600" selected>1 hour</option>
+          <option value="86400">24 hours</option>
+        </select>
+      </label>
+    </div>
+  </header>
+
+  <section class="summary" id="summary" aria-label="Summary"></section>
+
+  <main id="cameras" class="cameras" aria-label="Cameras"></main>
+
+  <section class="panel">
+    <h2>Recent sessions</h2>
+    <div class="table-wrap">
+      <table id="sessions">
+        <thead><tr><th>Machine</th><th>Started</th><th>Ended</th><th class="num">Duration</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <template id="camera-tpl">
+    <article class="card">
+      <div class="feed"><img alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head">
+          <h3 class="name"></h3>
+          <span class="pill"><span class="dot" aria-hidden="true"></span><span class="pill-text"></span></span>
+        </div>
+        <p class="meta"><span class="age"></span><span class="warn" hidden></span></p>
+        <div class="chart" role="img">
+          <svg viewBox="0 0 300 80" preserveAspectRatio="none"></svg>
+          <div class="tip" hidden></div>
+        </div>
+        <p class="legend"><span class="sw sw-smooth"></span>smoothed p(in use) <span class="sw sw-raw"></span>per frame</p>
+        <dl class="kpis">
+          <div><dt>Utilisation</dt><dd class="k-util">–</dd></div>
+          <div><dt>Sessions</dt><dd class="k-sessions">–</dd></div>
+          <div><dt>Avg session</dt><dd class="k-mean">–</dd></div>
+        </dl>
+      </div>
+    </article>
+  </template>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
