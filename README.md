@@ -4,6 +4,8 @@ GymWatch watches camera feeds of gym machines and reports, live, whether each ma
 **in use** or **free**. It also logs every usage session and serves a dashboard with
 utilisation statistics.
 
+Quick links: [Repository](https://github.com/ManuSasikanthOruvilakode1/GymWatch-Real-Time-Gym-Equipment-Monitoring) | [License (MIT)](LICENSE)
+
 It is a full rewrite of a 2024 Keras notebook project. The data is a
 **self-collected dataset**: 1,062 phone photos and two videos of a leg-extension machine and a
 pec-fly machine. The data stays private and is not included in this repository.
@@ -193,7 +195,7 @@ The image contains ONNX Runtime, OpenCV and FastAPI only: no PyTorch and no trai
 ## File structure
 
 ```
-Real-Time-Gym-Equipment-Monitoring-System/
+GymWatch-Real-Time-Gym-Equipment-Monitoring/
 ├── .github/workflows/ci.yml     lint + tests on every push (CPU, synthetic data)
 ├── configs/
 │   ├── default.yaml             all settings: data, model, training, cameras, smoothing
