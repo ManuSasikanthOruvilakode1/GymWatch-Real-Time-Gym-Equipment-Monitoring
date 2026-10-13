@@ -1,4 +1,4 @@
-# GymWatch: Real-Time Gym Equipment Monitoring
+# GymWatch: Real-Time Gym Equipment Monitoring 
 
 GymWatch watches camera feeds of gym machines and reports, live, whether each machine is
 **in use** or **free**. It also logs every usage session and serves a dashboard with
